@@ -1,0 +1,20 @@
+{% extends '_layout.html' %}
+{% block title %}
+    ارتباط با ما
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="contact-form">
+                <h2 class="title text-center">آپلود عکس پروفایل</h2>
+                <form id="main-contact-form" enctype="multipart/form-data" class="contact-form row" name="contact-form"
+                      method="post">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" value="ارسال" class="btn btn-warning">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -16,3 +16,7 @@ class ContactUs(models.Model):
     class Meta:
         verbose_name = 'ارتباط با ما'
         verbose_name_plural = 'ارتباط با ما'
+
+
+class Profile(models.Model):
+    image = models.ImageField(upload_to='profile')

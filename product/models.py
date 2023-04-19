@@ -40,6 +40,7 @@ class Product(models.Model):
     price = models.IntegerField()
     category = models.ForeignKey(Category,on_delete=models.CASCADE,related_name='product',null=True,blank=True,verbose_name='دسته بندی')
     brand = models.ForeignKey(Brand,on_delete=models.CASCADE,related_name='product',null=True,blank=True,verbose_name='برند')
+    image = models.ImageField(upload_to='product',verbose_name='تصویر محصول',null=True,blank=True)
     is_active = models.BooleanField(default=True)
     short_description = models.CharField(max_length=400)
     rate = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])

@@ -1,5 +1,6 @@
 {% extends '_layout.html' %}
 {% load render_partial %}
+{% load static %}
 {% block title %}
     محصولات
 {% endblock %}
@@ -17,7 +18,11 @@
                                 <div class="product-image-wrapper">
                                     <div class="single-products">
                                         <div class="productinfo text-center">
-                                            <img src="images/shop/product.jpg" alt="">
+                                            {% if product.image %}
+                                                <img src="{{ product.image.url }}" alt="">
+                                            {% else %}
+                                                <img src="{% static 'images/shop/product.jpg' %}" alt="">
+                                            {% endif %}
                                             <h2>{{ product.price }} ريال</h2>
                                             <p>{{ product.short_description }}</p>
                                             <a href="#" class="btn btn-default add-to-cart"><i
@@ -34,7 +39,8 @@
                                     </div>
                                     <div class="choose">
                                         <ul class="nav nav-pills nav-justified">
-                                            <li><a href="{% url 'product_detail' slug=product.slug %}"><i class="fa fa-plus-square"></i>جزئیات</a></li>
+                                            <li><a href="{% url 'product_detail' slug=product.slug %}"><i
+                                                    class="fa fa-plus-square"></i>جزئیات</a></li>
                                             <li><a href=""><i class="fa fa-plus-square"></i>مقایسه</a></li>
                                         </ul>
                                     </div>
@@ -55,7 +61,7 @@
                     </div><!--features_items-->
                 </div>
 
-                {% render_partial 'product.views.right_sidbar_component'  %}
+                {% render_partial 'product.views.right_sidbar_component' %}
 
             </div>
         </div>
