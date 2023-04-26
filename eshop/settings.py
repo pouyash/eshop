@@ -40,10 +40,14 @@ INSTALLED_APPS = [
     #External App
     'django_render_partial',
     'sweetify',
+    'sorl.thumbnail',
     #Internal App
     'product',
     'home',
     'contact_us',
+    'account',
+    'site_module',
+    'article',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +61,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'eshop.urls'
-
+AUTH_USER_MODEL = 'account.User'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -137,3 +141,9 @@ MEDIA_ROOT = BASE_DIR/'uploads'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = local_settings.email_user_name
+EMAIL_HOST_PASSWORD = local_settings.email_user_password
+EMAIL_PORT = '2525'

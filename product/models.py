@@ -36,8 +36,8 @@ class Brand(models.Model):
         verbose_name_plural = 'برند ها'
 
 class Product(models.Model):
-    title = models.CharField(max_length=300)
-    price = models.IntegerField()
+    title = models.CharField(max_length=300,verbose_name='عنوان')
+    price = models.IntegerField(verbose_name='قیمت')
     category = models.ForeignKey(Category,on_delete=models.CASCADE,related_name='product',null=True,blank=True,verbose_name='دسته بندی')
     brand = models.ForeignKey(Brand,on_delete=models.CASCADE,related_name='product',null=True,blank=True,verbose_name='برند')
     image = models.ImageField(upload_to='product',verbose_name='تصویر محصول',null=True,blank=True)

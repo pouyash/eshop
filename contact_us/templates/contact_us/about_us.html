@@ -1,0 +1,38 @@
+{% extends '_layout.html' %}
+{% block title %}
+    درباره ما
+{% endblock %}
+
+{% block content %}
+    <div class="bg">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="contact-info">
+                    <h2 class="title text-center">لوگـو شرکت</h2>
+                    <img src="{{ about.site_logo.url }}" class="img-responsive">
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="about">
+                    <h2 class="title text-center">دربـاره ما</h2>
+                    <p class="about-desc">
+                        {{ about.about_us }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 about-address">
+                <address>
+                    <p>{{ about.site_name }} |
+                        {{ about.address }} |
+                        تلفن تماس : {{ about.phone }} |
+                        فکس : {{ about.fax }}|
+                        ایمیـل :{{ about.email }}
+                    </p>
+                </address>
+            </div>
+        </div>
+    </div>
+{% endblock %}
