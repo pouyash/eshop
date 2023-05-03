@@ -1,0 +1,8 @@
+<ul class="list-group">
+    {% if request.user.avatar %}
+    <li><img style="height: 100px" src="{{  request.user.avatar.url }}" alt=""></li>
+    {% endif %}
+    <li class="list-group-item"><a href="{% url 'user_panel_home' %}">صفحه اصلی</a></li>
+    <li class="list-group-item"><a href="{% url 'user_panel_edit' %}">ویرایش مشخصات کاربری</a></li>
+    <li class="list-group-item"><a href="{% url 'user_panel_password' %}">تغییر رمز عبور</a></li>
+</ul>

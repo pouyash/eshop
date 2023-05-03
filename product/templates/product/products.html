@@ -11,64 +11,96 @@
             <div class="row">
 
                 <div class="col-sm-9 padding-right">
-                    <div class="features_items"><!--features_items-->
-                        <h2 class="title text-center">محصولات عمده</h2>
-                        {% for product in products %}
-                            <div class="col-sm-4">
-                                <div class="product-image-wrapper">
-                                    <div class="single-products">
-                                        <div class="productinfo text-center">
-                                            {% if product.image %}
-                                                <img src="{{ product.image.url }}" alt="">
-                                            {% else %}
-                                                <img src="{% static 'images/shop/product.jpg' %}" alt="">
-                                            {% endif %}
-                                            <h2>{{ product.price }} ريال</h2>
-                                            <p>{{ product.short_description }}</p>
-                                            <a href="#" class="btn btn-default add-to-cart"><i
-                                                    class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
-                                        </div>
-                                        <div class="product-overlay">
-                                            <div class="overlay-content">
+                    {% if products %}
+                        <div class="features_items"><!--features_items-->
+                            <h2 class="title text-center">محصولات عمده</h2>
+                            {% for product in products %}
+                                <div class="col-sm-4">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                {% if product.image %}
+                                                    <img src="{{ product.image.url }}" alt="">
+                                                {% else %}
+                                                    <img src="{% static 'images/shop/product.jpg' %}" alt="">
+                                                {% endif %}
                                                 <h2>{{ product.price }} ريال</h2>
                                                 <p>{{ product.short_description }}</p>
                                                 <a href="#" class="btn btn-default add-to-cart"><i
                                                         class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
                                             </div>
+                                            <div class="product-overlay">
+                                                <div class="overlay-content">
+                                                    <h2>{{ product.price }} ريال</h2>
+                                                    <p>{{ product.short_description }}</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i
+                                                            class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="choose">
+                                            <ul class="nav nav-pills nav-justified">
+                                                <li><a href="{% url 'product_detail' slug=product.slug %}"><i
+                                                        class="fa fa-plus-square"></i>جزئیات</a></li>
+                                                <li><a href=""><i class="fa fa-plus-square"></i>مقایسه</a></li>
+                                            </ul>
                                         </div>
                                     </div>
-                                    <div class="choose">
-                                        <ul class="nav nav-pills nav-justified">
-                                            <li><a href="{% url 'product_detail' slug=product.slug %}"><i
-                                                    class="fa fa-plus-square"></i>جزئیات</a></li>
-                                            <li><a href=""><i class="fa fa-plus-square"></i>مقایسه</a></li>
-                                        </ul>
-                                    </div>
                                 </div>
+                            {% endfor %}
+
+                            <div class="col-sm-12 padding-right">
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                        <li style="cursor: pointer"><a onclick="change_page({{ page_obj.previous_page_number }})">قبلی</a></li>
+                                    {% endif %}
+                                    {% for page_number in paginator %}
+                                        <li style="cursor: pointer" class="{% if page_obj.number == page_number.number %}active{% endif %}"><a
+                                                onclick="change_page({{ page_number.number }})">{{ page_number.number }}</a></li>
+                                    {% endfor %}
+                                    {% if page_obj.has_next %}
+                                        <li style="cursor: pointer"><a onclick="change_page({{ page_obj.next_page_number }})" >بعدی</a></li>
+                                    {% endif %}
+                                </ul>
                             </div>
-                        {% endfor %}
-
-                        <div class="col-sm-12 padding-right">
-                            <ul class="pagination">
-                                {% if page_obj.has_previous %}
-                                    <li><a href="?page={{ page_obj.previous_page_number }}">قبلی</a></li>
-                                {% endif %}
-                                {% for page_number in paginator %}
-                                    <li class="{% if page_obj.number == page_number.number %}active{% endif %}"><a
-                                            href="?page={{ page_number.number }}">{{ page_number.number }}</a></li>
-                                {% endfor %}
-                                {% if page_obj.has_next %}
-                                    <li><a href="?page={{ page_obj.next_page_number }}">بعدی</a></li>
-                                {% endif %}
-                            </ul>
-                        </div>
 
 
-                    </div><!--features_items-->
+                        </div><!--features_items-->
+                    {% else %}
+                        <div class="alert alert-danger">محصولی یافت نشد.</div>
+                    {% endif %}
                 </div>
 
                 {% render_partial 'product.views.right_sidbar_component' %}
 
+                <div class="price-range"><!--price-range-->
+                    <h2>فیلتـر قیمـت</h2>
+                    <div class="well">
+                        <input type="text" class="span2"
+                               value="{{ start_price }},{{ end_price }}"
+                               data-slider-min="0"
+                               data-slider-max="{{ db_max_price }}"
+                               data-slider-step="1000"
+                               data-slider-value="[{{ start_price }},{{ end_price }}]"
+                               id="sl2">
+                        <br>
+                        <b>{{ db_max_price }}</b> <b class="pull-left">0</b>
+                    </div>
+                    <form action="" id="form_filter" method="get">
+                        <input name="page" type="hidden" value="{{ page_obj.number }}" id="page_filter">
+                        <input name="start_price" type="hidden" id="start_price" value="{{ start_price }}">
+                        <input name="end_price" type="hidden" id="end_price" value="{{ end_price }}">
+                    </form>
+                    <input type="submit" value="فیلتر قیمت" onclick="filter_product()">
+                </div>
+            <div class="shipping text-center"><!--shipping-->
+                {% for banner in banners %}
+                    <a style="" href="{{ banner.url }}" target="_blank">
+                        <img style="width: 200px;" src="{{ banner.image.url }}" alt="">
+                    </a>
+
+                {% endfor %}
+             </div><!--/shipping-->
             </div>
         </div>
     </section>

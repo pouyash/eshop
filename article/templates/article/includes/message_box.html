@@ -1,0 +1,44 @@
+{% load poll_extras %}
+<h2>نظرات ({{ comment_count }})</h2>
+<ul class="media-list">
+    {% for comment in comments %}
+        <li class="media" id="parent_comment_{{ comment.id }}">
+            <a class="pull-right" href="#">
+                {% if comment.user.avatar %}
+                    <img class="media-object" src="{{ comment.user.avatar.url }}" alt="">
+                {% endif %}
+            </a>
+            <div class="media-body">
+                <ul class="sinlge-post-meta">
+                    <li><i class="fa fa-user"></i>{{ comment.user }}</li>
+                    <li><i class="fa fa-clock-o"></i>{{ comment.created_at | to_jalali_time }}</li>
+                    <li><i class="fa fa-calendar"></i>{{ comment.created_at | to_jalali }}</li>
+                </ul>
+                <p>{{ comment.text }}</p>
+                <a class="btn btn-primary" onclick="get_parent({{ comment.id }})"><i class="fa fa-reply"></i>پاسـخ</a>
+            </div>
+        </li>
+        {% for sub_comment in comment.parent_comment.all %}
+            <li class="media second-media">
+
+                <a class="pull-right" href="#">
+                    {% if sub_comment.user.avatar %}
+                        <img class="media-object" src="{{ sub_comment.user.avatar.url }}" alt="">
+                    {% endif %}
+                </a>
+                <div class="media-body">
+                    <ul class="sinlge-post-meta">
+                        <li><i class="fa fa-user"></i>{{ sub_comment.user }}</li>
+                        <li>
+                            <i class="fa fa-clock-o"></i>{{ sub_comment.created_at | to_jalali_time }}
+                        </li>
+                        <li><i class="fa fa-calendar"></i>{{ sub_comment.created_at | to_jalali }}
+                        </li>
+                    </ul>
+                    <p>{{ sub_comment.text }}</p>
+                </div>
+            </li>
+        {% endfor %}
+    {% endfor %}
+
+</ul>

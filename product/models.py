@@ -4,6 +4,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
+from account.models import User
+
 
 class ValidManager(models.Manager):
     def get_queryset(self):
@@ -11,6 +13,7 @@ class ValidManager(models.Manager):
 
 class Category(models.Model):
     title = models.CharField(max_length=300,verbose_name='عنوان')
+    slug = models.SlugField(null=True,blank=True,verbose_name='عنوان در لینک')
     is_active = models.BooleanField(default=True,verbose_name='فعال/غیرفال')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -24,6 +27,7 @@ class Category(models.Model):
 
 class Brand(models.Model):
     title = models.CharField(max_length=300,verbose_name='عنوان')
+    slug = models.SlugField(null=True, blank=True, verbose_name='عنوان در لینک')
     is_active = models.BooleanField(default=True,verbose_name='فعال/غیرفال')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -54,12 +58,39 @@ class Product(models.Model):
         verbose_name = 'محصولات'
         verbose_name_plural = 'محصولات'
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.slug = slugify(self.title)
-        super(Product, self).save()
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     self.slug = slugify(self.title)
+    #     super(Product, self).save()
 
     def __str__(self):
         return f'{self.title}=>{self.price}'
 
     def get_absolute_url(self):
         return reverse('product-detail',args=[self.slug])
+
+
+class ProductVisit(models.Model):
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,verbose_name='محصول',related_name='product_visit')
+    ip = models.CharField(max_length=300)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name='کاربر')
+
+    def __str__(self):
+        return f'{self.product.title} / {self.ip}'
+
+    class Meta:
+        verbose_name = 'بازدید محصولات'
+        verbose_name_plural = 'بازدید محصولات'
+
+class ProductGallery(models.Model):
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,verbose_name='محصول')
+    image = models.ImageField(upload_to='images/gallery')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.product.title
+
+    class Meta:
+        verbose_name = 'گالری تصاویر'
+        verbose_name_plural = 'گالری تصاویر'

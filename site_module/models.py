@@ -64,6 +64,7 @@ class SiteBanner(models.Model):
         product_detail='product_detail','صفحه جزئیات محصولات'
         about_us = 'about_us','صفحه درباره ما'
 
+
     title = models.CharField(max_length=200,verbose_name='عنوان')
     url = models.CharField(max_length=600,null=True,blank=True,verbose_name='لینک')
     image = models.ImageField(upload_to='images/banners',verbose_name='تصویر')

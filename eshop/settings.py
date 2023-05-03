@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_render_partial',
     'sweetify',
     'sorl.thumbnail',
+    'jalali_date',
     #Internal App
     'product',
     'home',
@@ -48,6 +49,8 @@ INSTALLED_APPS = [
     'account',
     'site_module',
     'article',
+    'user_panel',
+    'polls',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +150,29 @@ EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
 EMAIL_HOST_USER = local_settings.email_user_name
 EMAIL_HOST_PASSWORD = local_settings.email_user_password
 EMAIL_PORT = '2525'
+
+
+# default settings
+JALALI_DATE_DEFAULTS = {
+   'Strftime': {
+        'date': '%y/%m/%d',
+        'datetime': '%H:%M:%S _ %y/%m/%d',
+    },
+    'Static': {
+        'js': [
+            # loading datepicker
+            'admin/js/django_jalali.min.js',
+            # OR
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/calendar.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js',
+            # 'admin/js/main.js',
+        ],
+        'css': {
+            'all': [
+                'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css',
+            ]
+        }
+    },
+}

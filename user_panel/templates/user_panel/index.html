@@ -1,0 +1,17 @@
+{% extends '_layout.html' %}
+{% load render_partial %}
+{% block title %}
+    پنل کاربری
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {% render_partial 'user_panel.views.list_component' %}
+            </div>
+            <div class="col-md-8">
+                Welcome To admin panel mr{{ request.user }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

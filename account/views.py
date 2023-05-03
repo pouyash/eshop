@@ -56,6 +56,7 @@ class Login(View):
             if user is not None:
                 check_pass = user.check_password(password)
                 if user.is_active == True and check_pass:
+                    login(request,user)
                     sweetify.success(request,'با موفقیت وارد شدید')
                     return redirect(reverse('home'))
                 else:

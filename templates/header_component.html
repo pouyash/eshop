@@ -52,7 +52,7 @@
                                 {% if  request.user.is_superuser %}
                                     <li><a href="/admin/"><i class="fa fa-user"></i>پنل مدیرت</a></li>
                                 {% else %}
-                                    <li><a href="#"><i class="fa fa-user"></i> حساب کاربـری</a></li>
+                                    <li><a href="{% url 'user_panel_home' %}"><i class="fa fa-user"></i> حساب کاربـری</a></li>
                                 {% endif %}
                                 <li><a href="{% url 'logout' %}"><i class="fa fa-user"></i>خروج</a></li>
                             {% else %}
@@ -90,6 +90,7 @@
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a href="{% url 'home' %}" class="active">خـانه</a></li>
                             <li><a href="{% url 'about-us' %}">درباره مـا</a></li>
+                            <li><a href="{% url 'list_article' %}">مقالات</a></li>
                             <li><a href="{% url 'contact_us' %}">تماس با مـا</a></li>
                         </ul>
                     </div>
