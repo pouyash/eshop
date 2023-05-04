@@ -36,3 +36,7 @@ function change_page(page){
     $("#page_filter").val(page)
     $("#form_filter").submit()
 }
+
+function changeImage(src){
+    $("#product_image_gallery").attr('src',src)
+}

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import View
 from sweetify import sweetify
-
+from utils.convertors import convert_to_group
 from article.models import ArticleCategoryModel
 from product.models import Product, Category, Brand, ProductVisit
 from django.views.generic import ListView, DetailView
@@ -65,12 +65,16 @@ class ProductDetail(DetailView):
         context['is_favorite'] = self.request.COOKIES.get('favorite') == product
         ip_address =get_ip_address(self.request)
         product_visited = ProductVisit.objects.filter(ip__iexact=ip_address,product_id=self.object.id).exists()
+        related_products = list(Product.objects.filter(brand_id=self.object.brand.id).exclude(pk=self.object.id)[:4])
+        context['related_products'] = related_products
         user = None
         if self.request.user.is_authenticated:
             user = self.request.user
         if not product_visited :
             ProductVisit.objects.create(user=user,ip=ip_address,product_id=self.object.id)
 
+        gallery = self.object.productgallery_set.all()
+        context['galleries'] = convert_to_group(gallery,3)
         return context
 
 

@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib.admin import register
 
-from product.models import Product, Category, Brand, ProductVisit
+from product.models import Product, Category, Brand, ProductVisit, ProductGallery
 
 
 @register(Category)
@@ -21,4 +21,8 @@ class ProductAdmin(admin.ModelAdmin):
 
 @register(ProductVisit)
 class ProductVisitAdmin(admin.ModelAdmin):
+    pass
+
+@register(ProductGallery)
+class ProductGalleryAdmin(admin.ModelAdmin):
     pass

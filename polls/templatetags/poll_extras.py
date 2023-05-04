@@ -11,4 +11,7 @@ def to_jalali(value):
 def to_jalali_time(value):
     return jalali_date.datetime2jalali(value).strftime('%H:%M:%S')
 
+@register.filter('three_digit_currency')
+def three_digit_currency(value):
+    return '{:,}'.format(value)
 

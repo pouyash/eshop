@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'article',
     'user_panel',
     'polls',
+    'order',
 ]
 
 MIDDLEWARE = [
