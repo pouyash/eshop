@@ -11,6 +11,15 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_total(self):
+        total = 0
+        if self.is_paid == False:
+            for od in self.order_detail.all():
+                total += od.product.price * od.count
+        else:
+            for od in self.order_detail.all():
+                total += od.final_price * od.count
+        return total
 
     def __str__(self):
         return str(self.user)
@@ -35,5 +44,7 @@ class OrderDetail(models.Model):
         verbose_name = 'جزئیات سفارشات'
         verbose_name_plural = 'جزئیات سفارشات'
 
-
+    def save(self,*args,**kwargs):
+        self.final_price = self.product.price * self.count
+        super(OrderDetail, self).save(*args,**kwargs)
 

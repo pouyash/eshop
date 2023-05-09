@@ -23,7 +23,7 @@ function get_parent(parentId) {
 }
 
 
-function filter_product(){
+function filter_product() {
     const filter_price = $("#sl2").val().split(',')
     const start_price = filter_price[0]
     const end_price = filter_price[1]
@@ -32,11 +32,48 @@ function filter_product(){
     $("#form_filter").submit()
 }
 
-function change_page(page){
+function change_page(page) {
     $("#page_filter").val(page)
     $("#form_filter").submit()
 }
 
-function changeImage(src){
-    $("#product_image_gallery").attr('src',src)
+function changeImage(src) {
+    $("#product_image_gallery").attr('src', src)
+}
+
+
+function addToOrder(productId) {
+    const count = $("#product_count").val();
+
+    $.get('/order/add-to-order?productId=' + productId + '&count=' + count).then(res => {
+        const status = res.status
+        Swal.fire({
+                text: res.text,
+                icon: res.icon,
+                confirmButtonText: res.button
+            }
+        ).then((result) => {
+            if (status === 'not_auth') {
+                if (result.isConfirmed===true) {
+                    window.location.href = '/login'
+                }
+            }
+        })
+    })
+}
+
+function remove_order(id){
+    $.get('/order/remove_basket?id='+id).then(res=>{
+        $("#basket_content").html(res.body)
+    })
+}
+function decrease_order(id){
+    $.get('/order/decrease?id='+id).then(res=>{
+        $("#basket_content").html(res.body)
+    })
+}
+function increase_order(id){
+    $.get('/order/increase?id='+id).then(res=>{
+        $("#basket_content").html(res.body)
+    })
 }

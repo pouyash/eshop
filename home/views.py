@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.shortcuts import render
 from utils.convertors import convert_to_group
 # Create your views here.
@@ -19,12 +19,14 @@ def home(request):
             'products': list(category.product.all())
         }
         categories_product.append(item)
-
+    most_bought_products = Product.objects.filter(order_detail__order__is_paid=True).annotate(order_count=Sum('order_detail__count')).order_by('-order_count')[:12]
+    most_bought_products = convert_to_group(most_bought_products)
     context = {
         'sliders':slider,
         'products' : convert_to_group(products),
         'products_most_viewed': convert_to_group(products_most_viewed),
         'categories_product':categories_product,
+        'most_bought_products':most_bought_products,
     }
     return render(request,'home/home.html',context)
 

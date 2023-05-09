@@ -15,3 +15,6 @@ def to_jalali_time(value):
 def three_digit_currency(value):
     return '{:,}'.format(value)
 
+@register.simple_tag
+def multiply(val1,val2):
+    return three_digit_currency(val1*val2)

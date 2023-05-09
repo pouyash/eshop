@@ -141,3 +141,27 @@ def log_out(request):
     logout(request)
     sweetify.success(request,'با موفقیت خارج شدید')
     return redirect(reverse('home'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

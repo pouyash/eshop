@@ -11,6 +11,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 
+from order.models import Order
 from user_panel.forms import UserEditForm, ChangePasswordForm
 
 
@@ -66,6 +67,20 @@ class ChangePassword(View):
             'form':form,
         }
         return render(request, 'user_panel/change_password.html',context)
+
+def show_basket(request:HttpRequest):
+    order:Order = Order.objects.filter(is_paid=True,user=request.user)
+    context = {
+        'orders':order
+    }
+    return render(request, 'user_panel/account_orders.html',context)
+
+def show_basket_detail(request:HttpRequest,pk):
+    order:Order = Order.objects.filter(id=pk,is_paid=True,user=request.user).first()
+    context = {
+        'orders':order
+    }
+    return render(request, 'user_panel/account_orders_detail.html',context)
 
 def list_component(request):
     return render(request,'user_panel/list_component.html',{})

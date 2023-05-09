@@ -1,0 +1,52 @@
+{% extends '_layout.html' %}
+{% load render_partial %}
+{% load poll_extras %}
+{% block title %}
+    پنل کاربری
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {% render_partial 'user_panel.views.list_component' %}
+            </div>
+            <div class="col-md-8">
+                <div class="table-responsive cart_info">
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr class="cart_menu">
+                            <td class="description">شناسه</td>
+                            <td class="price">قیمت</td>
+                            <td class="quantity">تعـداد</td>
+                            <td class="total">نمایش جزئیات</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if orders %}
+                            {% for o in orders %}
+                                <tr>
+                                    <td class="cart_description">
+                                        <h4><a href="">{{ o.id }}</a></h4>
+                                    </td>
+                                    <td class="cart_price">
+                                        <p>{{ o.get_total | three_digit_currency }}</p>
+                                    </td>
+                                    <td class="cart_price">
+                                        <p>{{ o.order_detail.count }}</p>
+                                    </td>
+                                    <td class="cart_delete">
+                                        <a class="cart_quantity_delete" href="{% url 'show_basket_detail' pk=o.id %}"><i
+                                                class="fa fa-desktop"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <div class="alert alert-warning">سبد خرید شما خالی میباشد</div>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
